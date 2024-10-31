@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float,Date
-
+from sqlalchemy.orm import relationship
 from app.db.models import Base
 
 class Mission(Base):
@@ -14,15 +14,4 @@ class Mission(Base):
     aircraft_damaged  = Column(Float)
     aircraft_lost = Column(Float)
 
-    def to_dict(self):
-        return {
-            "mission_id": self.mission_id,
-            "mission_date": self.mission_date.isoformat() if self.mission_date else None,
-            "airborne_aircraft": self.airborne_aircraft,
-            "attacking_aircraft": self.attacking_aircraft,
-            "bombing_aircraft": self.bombing_aircraft,
-            "aircraft_returned": self.aircraft_returned,
-            "aircraft_failed": self.aircraft_failed,
-            "aircraft_damaged": self.aircraft_damaged,
-            "aircraft_lost": self.aircraft_lost
-        }
+    targets = relationship("TargetModel", back_populates="mission")
